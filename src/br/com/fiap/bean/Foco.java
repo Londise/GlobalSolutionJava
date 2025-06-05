@@ -9,6 +9,8 @@ public class Foco {
     private LocalDate dataFoco;
     private String gravidade;
 
+    // construtores
+
     public Foco() {
     }
 
@@ -19,6 +21,8 @@ public class Foco {
         this.isAtendido = statusFoco;
         this.gravidade = gravidade;
     }
+
+    // getters/setters
 
     public int getIdFoco() {
         return idFoco;

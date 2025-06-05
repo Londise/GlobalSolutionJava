@@ -6,14 +6,20 @@ import java.time.format.DateTimeFormatter;
 
 public class Cidadao extends Usuario{
     private int idCidadao;
+    private int numeroDeRegistros;
+
+    // construtores
 
     public Cidadao() {
     }
 
-    public Cidadao(String nome, String CPF, String senha, int idCidadao) {
+    public Cidadao(String nome, String CPF, String senha, int idCidadao, int numeroDeRegistros) {
         super(nome, CPF, senha);
         this.idCidadao = idCidadao;
+        this.numeroDeRegistros = numeroDeRegistros;
     }
+
+    // getters/setters
 
     public int getIdCidadao() {
         return idCidadao;
@@ -21,6 +27,14 @@ public class Cidadao extends Usuario{
 
     public void setIdCidadao(int idCidadao) {
         this.idCidadao = idCidadao;
+    }
+
+    public int getNumeroDeRegistros() {
+        return numeroDeRegistros;
+    }
+
+    public void setNumeroDeRegistros(int numeroDeRegistros) {
+        this.numeroDeRegistros = numeroDeRegistros;
     }
 
     /**
@@ -35,7 +49,8 @@ public class Cidadao extends Usuario{
         int idFoco = 5000;
 
         Foco foco = new Foco(idFoco, this.idCidadao, dataAtual, isAtendido, gravidade);
-        JOptionPane.showMessageDialog(null, String.format("O foco de\nID: %s \nGRAVIDADE: %s \nFoi registrado com sucesso em %s", idFoco, gravidade, dtf.format(dataAtual)));
+        numeroDeRegistros++;
+        JOptionPane.showMessageDialog(null, String.format("Foco registrado com sucesso! \n%d \n%s \nRegistrado por (%s)", idFoco, gravidade, dtf.format(dataAtual), this.getNome()), "Registro de foco", JOptionPane.WARNING_MESSAGE);
 
         return foco;
     }
@@ -44,7 +59,7 @@ public class Cidadao extends Usuario{
      * Exibe as informacoes (Nome, CPF, ID de cidadao) do cidadao
      */
     public void exibirInformacoesDoUsuario() {
-        String info = String.format("Informações do usuário \nNome: %s \nCPF: %s \nID: %d", getNome(), getCPF(), this.idCidadao);
+        String info = String.format("Informações do usuário \nNome: %s \nCPF: %s \nID: %d \nNúmero de focos registrados: %d", getNome(), getCPF(), this.idCidadao, this.numeroDeRegistros);
         JOptionPane.showMessageDialog(null, info, "Informações do usuário", JOptionPane.INFORMATION_MESSAGE);
     }
 

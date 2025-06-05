@@ -13,138 +13,166 @@ public class Main {
         Usuario usuario = null;
 
         // Instanciando cidadão, autoridade e foco com dados predeterminados
-        Cidadao cidadao = new Cidadao("admin", "11111111111", "admin", 2500);
-        Autoridade autoridade = new Autoridade("admin", "11111111111", "admin", 2700);
+        Cidadao cidadao = new Cidadao("admin", "11111111111", "admin", 2500, 0);
+        Autoridade autoridade = new Autoridade("admin", "11111111111", "admin", "AMAZONAS", 2700);
         Foco foco = new Foco(3000, cidadao.getIdCidadao(), LocalDate.parse("2025-05-25"), false, "GRAVE");
 
         int opcao;
         String nome, CPF, senha, tipoUsuario;
-        boolean isLogado = false;
+        boolean continuar = true;
 
-        while (!isLogado) {
-            try {
-                opcao = Integer.parseInt(JOptionPane.showInputDialog("Bem-vindo ao sistema! \n\nDigite o método de acesso \n(1) Cadastro \n(2) Login"));
+        JOptionPane.showMessageDialog(null, "Bem-vindo ao Sistema de Monitoramento de Queimadas!\n\nEste programa faz uma simples simulação da nossa solução criada para ajudar cidadãos e autoridades a colaborarem no combate às queimadas no Brasil.\nAqui, você pode registrar novos focos de incêndio, acompanhar o histórico de ocorrências de focos\ne ajudar a proteger o meio ambiente.\n\nSe você é um cidadão, poderá informar novos focos que visualizar, e ver o histórico de focos tanto da sua região\ncomo de outras regiões, ajudando a tornar os dados mais atualizados.\nSe você for uma autoridade, você atua em uma determinada região, pode visualizar os registros e atuar diretamente no atendimento.\n\nEcognition - todos os direitos reservados", "", JOptionPane.INFORMATION_MESSAGE);
 
-                switch (opcao) {
-                    case 1: // CADASTRO
-                        nome = JOptionPane.showInputDialog("Digite o seu nome");
-                        CPF = JOptionPane.showInputDialog("Digite os 11 digitos do CPF");
-                        senha = JOptionPane.showInputDialog("Digite a senha");
+        while (continuar) {
+            boolean isLogado = false;
 
-                        // Inserção do tipo de usuário
-                        tipoUsuario = JOptionPane.showInputDialog("Digite o tipo de usuário a ser cadastrado (CIDADÃO OU AUTORIDADE)").toUpperCase();
+            while (!isLogado && continuar) {
+                try {
+                    opcao = Integer.parseInt(JOptionPane.showInputDialog("Bem-vindo ao sistema! \n\nDigite o método de acesso \n(1) Cadastro \n(2) Login \n(3) Sair do programa"));
 
-                        if (tipoUsuario.equalsIgnoreCase("CIDADÃO")) {
-                            // Cadastro cidadão
-                            int idCidadao = 2500;
-                            cidadao.setIdCidadao(idCidadao);
-                            cidadao.setNome(nome);
-                            cidadao.setCPF(CPF);
-                            cidadao.setSenha(senha);
+                    switch (opcao) {
+                        case 1: // CADASTRO
+                            nome = JOptionPane.showInputDialog("Digite o seu nome");
+                            CPF = JOptionPane.showInputDialog("Digite os 11 digitos do CPF");
+                            senha = JOptionPane.showInputDialog("Digite a senha");
 
-                        } else if (tipoUsuario.equalsIgnoreCase("AUTORIDADE")) {
-                            // Cadastro autoridade
-                            int idAutoridade = 2700;
-                            autoridade.setIdAutoridade(idAutoridade);
-                            autoridade.setNome(nome);
-                            autoridade.setCPF(CPF);
-                            autoridade.setSenha(senha);
+                            tipoUsuario = JOptionPane.showInputDialog("Digite o tipo de usuário a ser cadastrado (CIDADÃO OU AUTORIDADE)").toUpperCase();
 
-                        } else {
-                            throw new Exception("Tipo de usuário incorreto!");
-                        }
-                        break;
+                            if (tipoUsuario.equalsIgnoreCase("CIDADÃO")) {
+                                int idCidadao = 2500;
+                                cidadao.setIdCidadao(idCidadao);
+                                cidadao.setNome(nome);
+                                cidadao.setCPF(CPF);
+                                cidadao.setSenha(senha);
+                                cidadao.setNumeroDeRegistros(0);
 
-                    case 2: // LOGIN
-                        tipoUsuario = JOptionPane.showInputDialog("Digite o tipo de usuário para login (CIDADÃO ou AUTORIDADE)").toUpperCase();
-                        nome = JOptionPane.showInputDialog("Digite o seu nome");
-                        senha = JOptionPane.showInputDialog("Digite a senha");
+                            } else if (tipoUsuario.equalsIgnoreCase("AUTORIDADE")) {
+                                String regiaoAtendimento = JOptionPane.showInputDialog("Digite a região de atendimento").toUpperCase();
+                                int idAutoridade = 2700;
+                                autoridade.setIdAutoridade(idAutoridade);
+                                autoridade.setNome(nome);
+                                autoridade.setCPF(CPF);
+                                autoridade.setSenha(senha);
+                                autoridade.setRegiaoAtendimento(regiaoAtendimento);
 
-                        // Login cidadão
-                        if (tipoUsuario.equalsIgnoreCase("CIDADÃO")) {
-                            if (nome.equals(cidadao.getNome()) && senha.equals(cidadao.getSenha())) {
-                                usuario = cidadao;
-                                do {
-                                    // Menu Cidadão
-                                    int opcaoMenu = Integer.parseInt(JOptionPane.showInputDialog(String.format("Bem-vindo %s!\n\nEscolha uma das opções abaixo \n\n(1) Registrar um foco \n(2) Exibir dados históricos da sua região \n(3) Exibir dados históricos de outra região \n(4) Exibir dados do perfil", cidadao.getNome())));
-
-                                    switch (opcaoMenu) {
-                                        case 1: // Registrar um Foco
-                                            String gravidade = JOptionPane.showInputDialog("Qual a gravidade da situação? (GRAVE, MODERADO, BAIXO)");
-                                            boolean statusFoco = JOptionPane.showConfirmDialog(null, "O foco está sendo atendido?", "Atenção", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION;
-                                            foco = cidadao.registrarFoco(gravidade, statusFoco);
-
-                                            if (!statusFoco) { // se o foco não é atendido chama o corpo de bombeiros
-                                                autoridade.atenderFoco(foco, cidadao.getNome());
-                                            }
-                                            break;
-
-                                        case 2: // Mostrar histórico de focos na região do usuário (cidadão)
-                                            cidadao.exibirHistoricoDeFocos();
-                                            break;
-
-                                        case 3: // Mostrar histórico de focos da região fornecida
-                                            String regiao = JOptionPane.showInputDialog("Digite a região (estado) da qual deseja ver o histórico");
-                                            cidadao.exibirHistoricoDeFocos(regiao);
-                                            break;
-
-                                        case 4: // Exibir informações do usuário
-                                            usuario.exibirInformacoesDoUsuario();
-                                            break;
-
-                                        default:
-                                            throw new Exception("Opção incorreta!");
-
-                                    }
-                                } while (JOptionPane.showConfirmDialog(null, "Deseja continuar?", "Atenção", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == 0);
                             } else {
-                                throw new Exception("Senha incorreta!");
+                                throw new Exception("Tipo de usuário incorreto!");
                             }
+                            break;
 
-                        // Login autoridade
-                        } else if (tipoUsuario.equalsIgnoreCase("AUTORIDADE")) {
-                            if (nome.equals(autoridade.getNome()) && senha.equals(autoridade.getSenha())) {
-                                usuario = autoridade;
-                                do {
-                                    // Menu Autoridade
-                                    int opcaoMenu = Integer.parseInt(JOptionPane.showInputDialog("Escolha uma das opções abaixo \n(1) Atender um foco \n(2) Exibir informações do usuário \n(3) Exibir histórico de focos da região"));
+                        case 2: // LOGIN
+                            tipoUsuario = JOptionPane.showInputDialog("Digite o tipo de usuário para login (CIDADÃO ou AUTORIDADE)").toUpperCase();
+                            nome = JOptionPane.showInputDialog("Digite o seu nome");
+                            senha = JOptionPane.showInputDialog("Digite a senha");
 
-                                    switch (opcaoMenu) {
-                                        case 1: // Atender um foco
-                                            autoridade.atenderFoco(foco);
-                                            break;
+                            if (tipoUsuario.equalsIgnoreCase("CIDADÃO")) {
+                                if (nome.equals(cidadao.getNome()) && senha.equals(cidadao.getSenha())) {
+                                    usuario = cidadao;
+                                    isLogado = true;
 
-                                        case 2: // Exibir informações do usuário
-                                            usuario.exibirInformacoesDoUsuario();
-                                            break;
+                                    do {
+                                        int opcaoMenu = Integer.parseInt(JOptionPane.showInputDialog(String.format("Bem-vindo %s!\n\nEscolha uma das opções abaixo \n\n(1) Registrar um foco \n(2) Exibir dados históricos da sua região \n(3) Exibir dados históricos de outra região \n(4) Exibir dados do perfil \n(5) Deslogar \n(6) Sair do programa", cidadao.getNome())));
 
-                                        case 3: // Exibir histórico de focos na região do usuário (autoridade)
-                                            autoridade.exibirHistoricoDeFocos();
-                                            break;
+                                        switch (opcaoMenu) {
+                                            case 1:
+                                                String gravidade = JOptionPane.showInputDialog("Qual a gravidade da situação? (GRAVE, MODERADO, BAIXO)");
+                                                boolean statusFoco = JOptionPane.showConfirmDialog(null, "O foco está sendo atendido?", "Atenção", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION;
+                                                foco = cidadao.registrarFoco(gravidade, statusFoco);
 
-                                        default:
-                                            throw new Exception("Opção incorreta!");
-                                    }
+                                                if (!statusFoco) {
+                                                    autoridade.atenderFoco(foco, cidadao.getNome());
+                                                }
+                                                break;
 
-                                } while (JOptionPane.showConfirmDialog(null, "Deseja continuar?", "Atenção", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == 0);
+                                            case 2:
+                                                cidadao.exibirHistoricoDeFocos();
+                                                break;
+
+                                            case 3:
+                                                String regiao = JOptionPane.showInputDialog("Digite a região (estado) da qual deseja ver o histórico");
+                                                cidadao.exibirHistoricoDeFocos(regiao);
+                                                break;
+
+                                            case 4:
+                                                usuario.exibirInformacoesDoUsuario();
+                                                break;
+
+                                            case 5:
+                                                isLogado = false;
+                                                break;
+
+                                            case 6:
+                                                isLogado = false;
+                                                continuar = false;
+                                                break;
+
+                                            default:
+                                                throw new Exception("Opção incorreta!");
+                                        }
+                                    } while (isLogado);
+
+                                } else {
+                                    throw new Exception("Senha incorreta!");
+                                }
+
+                            } else if (tipoUsuario.equalsIgnoreCase("AUTORIDADE")) {
+                                if (nome.equals(autoridade.getNome()) && senha.equals(autoridade.getSenha())) {
+                                    usuario = autoridade;
+                                    isLogado = true;
+
+                                    do {
+                                        int opcaoMenu = Integer.parseInt(JOptionPane.showInputDialog(String.format("Bem-vindo %s!\n\nEscolha uma das opções abaixo\n(1) Atender um foco \n(2) Exibir informações do usuário \n(3) Exibir histórico de focos da região \n(4) Deslogar \n(5) Sair do programa", autoridade.getNome())));
+
+                                        switch (opcaoMenu) {
+                                            case 1:
+                                                autoridade.atenderFoco(foco);
+                                                break;
+
+                                            case 2:
+                                                usuario.exibirInformacoesDoUsuario();
+                                                break;
+
+                                            case 3:
+                                                autoridade.exibirHistoricoDeFocos();
+                                                break;
+
+                                            case 4:
+                                                isLogado = false;
+                                                break;
+
+                                            case 5:
+                                                isLogado = false;
+                                                continuar = false;
+                                                break;
+
+                                            default:
+                                                throw new Exception("Opção incorreta!");
+                                        }
+
+                                    } while (isLogado);
+
+                                } else {
+                                    throw new Exception("Senha ou nome incorretos!");
+                                }
                             } else {
-                                throw new Exception("Senha ou nome incorretos!");
+                                throw new Exception("Tipo de usuário incorreto!");
                             }
-                        } else {
-                            throw new Exception("Tipo de usuário incorreto!");
-                        }
+                            break;
 
-                        isLogado = true;
-                        break;
+                        case 3: // SAIR DO PROGRAMA
+                            continuar = false;
+                            break;
 
-                    default:
-                        throw new Exception("Escolha incorreta");
+                        default:
+                            throw new Exception("Escolha incorreta");
+                    }
+
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, e.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
                 }
-
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, e.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
             }
         }
+
         JOptionPane.showMessageDialog(null, "Volte sempre!", "Fim de programa", JOptionPane.WARNING_MESSAGE);
     }
 }

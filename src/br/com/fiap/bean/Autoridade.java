@@ -5,14 +5,28 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class Autoridade extends Usuario{
+    private String regiaoAtendimento;
     private int idAutoridade;
+
+    // construtores
 
     public Autoridade() {
     }
 
-    public Autoridade(String nome, String CPF, String senha, int idAutoridade) {
+    public Autoridade(String nome, String CPF, String senha, String regiaoAtendimento, int idAutoridade) {
         super(nome, CPF, senha);
+        this.regiaoAtendimento = regiaoAtendimento;
         this.idAutoridade = idAutoridade;
+    }
+
+    // getters/setters
+
+    public String getRegiaoAtendimento() {
+        return regiaoAtendimento;
+    }
+
+    public void setRegiaoAtendimento(String regiaoAtendimento) {
+        this.regiaoAtendimento = regiaoAtendimento;
     }
 
     public int getIdAutoridade() {
@@ -53,7 +67,7 @@ public class Autoridade extends Usuario{
      * Exibe as informacoes (nome, CPF, ID de autoridade) da autoridade
      */
     public void exibirInformacoesDoUsuario() {
-        String info = String.format("Informações do usuário \nNome: %s \nCPF: %s \nID: %d", getNome(), getCPF(), this.idAutoridade);
+        String info = String.format("Informações do usuário \nNome: %s \nCPF: %s \nID: %d \nRegião de atendimento: %s", getNome(), getCPF(), this.idAutoridade, this.regiaoAtendimento);
         JOptionPane.showMessageDialog(null, info, "Informações do usuário", JOptionPane.INFORMATION_MESSAGE);
     }
 
@@ -63,7 +77,8 @@ public class Autoridade extends Usuario{
         Foco focoSimulado3 = new Foco(5004, 5500, LocalDate.parse("2025-08-25"), false, "BAIXA");
 
         String mensagem = String.format("Data                      ID              Usuário          Gravidade            Local\n%s         %d             %d                  %s         Vila Diamantina\n%s         %d             %d                  %s         Manaus\n%s         %d             %d                  %s         Presidente Figueiredo", focoSimulado1.getDataFoco(), focoSimulado1.getIdFoco(), focoSimulado1.getIdCidadaoVinculado(), focoSimulado1.getGravidade(), focoSimulado2.getDataFoco(), focoSimulado2.getIdFoco(), focoSimulado2.getIdCidadaoVinculado(), focoSimulado2.getGravidade(),focoSimulado3.getDataFoco(), focoSimulado3.getIdFoco(), focoSimulado3.getIdCidadaoVinculado(), focoSimulado3.getGravidade());
+        String titulo = String.format("Histórico de focos (DADOS DE MAIO 2025 - %s)", this.regiaoAtendimento);
 
-        JOptionPane.showMessageDialog(null, mensagem, "Histórico de focos (DADOS DE MAIO 2025 - AMAZONAS)", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, mensagem, titulo, JOptionPane.INFORMATION_MESSAGE);
     }
 }

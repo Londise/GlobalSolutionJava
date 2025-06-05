@@ -7,6 +7,8 @@ public class Usuario {
     private String CPF;
     private String senha;
 
+    // construtores
+
     public Usuario() {
     }
 
@@ -15,6 +17,8 @@ public class Usuario {
         setCPF(CPF);
         setSenha(senha);
     }
+
+    // getters/setters
 
     public String getNome() {
         return nome;
