@@ -1,8 +1,12 @@
 // Juan Fuentes Rufino RM558095
 // Pedro Henrique Silva Batista RM558137
-// Fernando Carlos Colque Huaranca RM558095 
+// Fernando Carlos Colque Huaranca RM558095
 
 package br.com.fiap.bean;
+/**
+ * Classe que representa um cidadao que pode registrar focos de incendio e consultar historicos.
+ * Estende a classe Usuario, adicionando funcionalidades específicas ao cidadão.
+ */
 
 import javax.swing.*;
 import java.time.LocalDate;
@@ -43,9 +47,9 @@ public class Cidadao extends Usuario{
 
     /**
      * Possibilita ao cidadao registrar um foco informando a gravidade e a presenca ou nao de autoridades na area
-     *
-     * @param gravidade - indica a gravidade do foco registrado
-     * @param isAtendido - indica se ha autoridades ou nao atendendo o foco registrado
+     * @param gravidade indica a gravidade do foco registrado
+     * @param isAtendido indica se ha autoridades ou nao atendendo o foco registrado
+     * @return retorna o foco registrado pelo usuario
      */
     public Foco registrarFoco(String gravidade, boolean isAtendido) {
         LocalDate dataAtual = LocalDate.now();
@@ -54,7 +58,7 @@ public class Cidadao extends Usuario{
 
         Foco foco = new Foco(idFoco, this.idCidadao, dataAtual, isAtendido, gravidade);
         numeroDeRegistros++;
-        JOptionPane.showMessageDialog(null, String.format("Foco registrado com sucesso! \n%d \n%s \nRegistrado por (%s)", idFoco, gravidade, dtf.format(dataAtual), this.getNome()), "Registro de foco", JOptionPane.WARNING_MESSAGE);
+        JOptionPane.showMessageDialog(null, String.format("Foco registrado com sucesso! \nID: %d \nGRAVIDADE: %s \nDATA: %s \nRegistrado por (%s)", idFoco, gravidade, dtf.format(dataAtual), this.getNome()), "Registro de foco", JOptionPane.WARNING_MESSAGE);
 
         return foco;
     }

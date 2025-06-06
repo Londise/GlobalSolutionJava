@@ -3,6 +3,9 @@
 // Fernando Carlos Colque Huaranca RM558095 
 
 package br.com.fiap.bean;
+/**
+ * Representa um foco de incêndio registrado no sistema.
+ */
 
 import java.time.LocalDate;
 

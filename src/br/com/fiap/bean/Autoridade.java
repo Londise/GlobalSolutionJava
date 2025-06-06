@@ -3,6 +3,10 @@
 // Fernando Carlos Colque Huaranca RM558095 
 
 package br.com.fiap.bean;
+/**
+ * Classe que representa uma autoridade responsavel pelo atendimento dos focos de incendio.
+ * Estende a classe Usuario, adicionando funcionalidades específicas a autoridade.
+ */
 
 import javax.swing.*;
 import java.time.LocalDate;

@@ -3,6 +3,9 @@
 // Fernando Carlos Colque Huaranca RM558095 
 
 package br.com.fiap.bean;
+/**
+ * Classe pai que representa um usuário genérico do sistema de monitoramento de queimadas, fornecendo atributos e comportamentos comuns a todos os usuários, como nome, CPF e senha.
+ */
 
 import javax.swing.*;
 
