@@ -1,3 +1,9 @@
+// Juan Fuentes Rufino RM558095
+// Pedro Henrique Silva Batista RM558137
+// Fernando Carlos Colque Huaranca RM558095 
+
+
+
 package br.com.fiap.bean;
 
 import javax.swing.*;
