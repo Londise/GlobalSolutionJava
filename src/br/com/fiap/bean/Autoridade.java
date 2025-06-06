@@ -71,6 +71,9 @@ public class Autoridade extends Usuario{
         JOptionPane.showMessageDialog(null, info, "Informações do usuário", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    /**
+     * (method overload) Exibe o historico de focos na regiao que a autoridade atua
+     */
     public void exibirHistoricoDeFocos() {
         Foco focoSimulado1 = new Foco(5002, 6500, LocalDate.parse("2025-05-29"), true, "GRAVE");
         Foco focoSimulado2 = new Foco(5003, 6700, LocalDate.parse("2025-05-26"), true, "GRAVE");
