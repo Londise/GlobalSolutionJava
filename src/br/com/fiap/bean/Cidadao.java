@@ -67,6 +67,11 @@ public class Cidadao extends Usuario{
         JOptionPane.showMessageDialog(null, info, "Informações do usuário", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    /**
+     * Exibe um historico simulado de focos de incendio da regiao do proprio cidadao com dados ficticios.
+     * As informacoes exibidas incluem a data, a gravidade e a localidade do foco.
+     */
+
     public void exibirHistoricoDeFocos() {
         Foco focoSimulado1 = new Foco(5002, 6500, LocalDate.parse("2025-05-29"), true, "GRAVE");
         Foco focoSimulado2 = new Foco(5003, 6700, LocalDate.parse("2025-05-26"), true, "GRAVE");
@@ -75,6 +80,12 @@ public class Cidadao extends Usuario{
         String mensagem = String.format("Data                      Gravidade                Local\n%s              %s         Vila Gustavo\n%s              %s         Cachoeirinha\n%s              %s          Coari", focoSimulado1.getDataFoco(), focoSimulado1.getGravidade(), focoSimulado2.getDataFoco(), focoSimulado2.getGravidade(),focoSimulado3.getDataFoco(), focoSimulado3.getGravidade());
         JOptionPane.showMessageDialog(null, mensagem, "Histórico de focos (DADOS DE MAIO 2025 - AMAZONAS)", JOptionPane.INFORMATION_MESSAGE);
     }
+
+    /**
+     * Exibe um historico simulado de focos de incendio de uma regiao especifica informada pelo usuario com dados ficticios
+     * As informacoes exibidas incluem a data, a gravidade e a localidade dos focos.
+     * @param regiao Nome da regiao (estado ou localidade) da qual se deseja visualizar o historico de focos.
+     */
 
     public void exibirHistoricoDeFocos(String regiao) {
         Foco focoSimulado1 = new Foco(5002, 6600, LocalDate.parse("2025-05-29"), true, "GRAVE");
